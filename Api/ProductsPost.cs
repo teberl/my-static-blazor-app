@@ -21,13 +21,12 @@ namespace Api
 
         [FunctionName("ProductsPost")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "products")] HttpRequest req,
-            ILogger log)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "products")] HttpRequest req)
         {
             var body = await new StreamReader(req.Body).ReadToEndAsync();
             var product = JsonSerializer.Deserialize<Product>(body, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 
-            var newProduct = await productData.UpdateProduct(product);
+            var newProduct = await productData.AddProduct(product);
             return new OkObjectResult(newProduct);
         }
     }
