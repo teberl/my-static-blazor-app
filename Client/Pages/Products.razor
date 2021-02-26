@@ -34,7 +34,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        products = (await http.GetFromJsonAsync<ProductsResponse>("api/products")).Result;
+        products = (await http.GetFromJsonAsync<ApiResponse<IEnumerable<Product>>>("api/products")).Result;
         Console.WriteLine($"Received Products: {products.ToString()}");
     }
 
@@ -45,7 +45,7 @@
 
     private async Task HandleRefresh()
     {
-        products = await http.GetFromJsonAsync<IEnumerable<Product>>("api/products");
+        products = (await http.GetFromJsonAsync<ApiResponse<IEnumerable<Product>>>("api/products")).Result;
     }
 
     private void SelectProduct(Product product)
